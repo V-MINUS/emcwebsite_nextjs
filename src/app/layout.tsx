@@ -4,13 +4,12 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
+import ParticlesBackground from '@/components/ParticlesBackground'
+import { metadata as siteMetadata } from './metadata'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export const metadata: Metadata = {
-  title: 'EMC - Electronic Music Council',
-  description: 'Empowering music creators through competitions, community, and opportunities.',
-}
+export const metadata: Metadata = siteMetadata
 
 export default function RootLayout({
   children,
@@ -19,13 +18,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <Navigation />
-        <main className="min-h-screen">
+      <body className={`${inter.className} bg-black text-white`}>
+        <ParticlesBackground />
+        <div className="relative z-10">
           {children}
-        </main>
-        <Footer />
+        </div>
       </body>
     </html>
   )
-} 
+}

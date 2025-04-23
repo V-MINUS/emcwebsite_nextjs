@@ -1,181 +1,163 @@
-'use client';
+import Image from 'next/image'
+import Link from 'next/link'
+import { Metadata } from 'next'
 
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { FaCalendarAlt, FaMapMarkerAlt, FaTicketAlt, FaClock } from 'react-icons/fa';
+export const metadata: Metadata = {
+  title: 'Events | Electronic Music Council',
+  description: 'Upcoming electronic music events organized by the Electronic Music Council in Cork.',
+}
 
-const Events = () => {
-  const [activeTab, setActiveTab] = useState<'upcoming' | 'past'>('upcoming');
+type Event = {
+  id: number
+  title: string
+  date: {
+    day: string
+    month: string
+  }
+  venue: string
+  time: string
+  description: string
+  image: string
+}
 
-  const events = {
-    upcoming: [
-      {
-        id: 1,
-        title: 'Beat Battle #5',
-        date: '2024-03-15',
-        time: '19:00',
-        location: 'Cork City',
-        description: 'Join us for our monthly beat battle competition',
-        tickets: 'Free Entry'
-      },
-      {
-        id: 2,
-        title: 'Producer Workshop',
-        date: '2024-03-22',
-        time: '18:00',
-        location: 'Cork City',
-        description: 'Learn advanced production techniques from industry professionals',
-        tickets: '€20'
-      },
-      {
-        id: 3,
-        title: 'EMC Showcase',
-        date: '2024-04-05',
-        time: '20:00',
-        location: 'Cork City',
-        description: 'Showcase of winning tracks from recent competitions',
-        tickets: '€15'
-      }
-    ],
-    past: [
-      {
-        id: 4,
-        title: 'Beat Battle #4',
-        date: '2024-02-15',
-        time: '19:00',
-        location: 'Cork City',
-        description: 'Previous beat battle competition',
-        tickets: 'Completed'
-      },
-      {
-        id: 5,
-        title: 'Sound Design Masterclass',
-        date: '2024-01-25',
-        time: '18:00',
-        location: 'Cork City',
-        description: 'Advanced sound design techniques workshop',
-        tickets: 'Completed'
-      }
-    ]
-  };
+const upcomingEvents: Event[] = [
+  {
+    id: 1,
+    title: "EMC Presents: Small Crab at Liquid Lounge",
+    date: { day: "15", month: "APR" },
+    venue: "Liquid Lounge, Cork",
+    time: "10:00 PM - 2:00 AM",
+    description: "Join us for an unforgettable night featuring Small Crab, delivering cutting-edge electronic sounds in an intimate venue setting.",
+    image: "/images/small-crab.jpg"
+  },
+  {
+    id: 2,
+    title: "Techno Tuesdays with DJ Static",
+    date: { day: "22", month: "APR" },
+    venue: "Dali, Cork",
+    time: "9:00 PM - 1:00 AM",
+    description: "Our weekly techno night returns with resident DJ Static spinning the best underground techno tracks.",
+    image: "/images/event-placeholder.jpg"
+  },
+  {
+    id: 3,
+    title: "EMC Workshop: Introduction to Ableton Live",
+    date: { day: "28", month: "APR" },
+    venue: "Cork Sound Fair, Cork",
+    time: "2:00 PM - 5:00 PM",
+    description: "Learn the basics of music production with Ableton Live in this hands-on workshop for beginners.",
+    image: "/images/event-placeholder.jpg"
+  }
+]
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5
-      }
-    }
-  };
-
+export default function Events() {
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-r from-gray-900 to-gray-800 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center"
-          >
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">Events</h1>
-            <p className="text-xl md:text-2xl max-w-3xl mx-auto">
-              Join us for exciting competitions, workshops, and showcases
-            </p>
-          </motion.div>
+    <main className="min-h-screen bg-black text-white">
+      {/* Page Header */}
+      <section className="py-16 bg-gradient-to-b from-purple-900/50 to-black">
+        <div className="container mx-auto px-4">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">Events</h1>
+          <div className="w-24 h-1 bg-purple-600"></div>
         </div>
       </section>
-
-      {/* Tabs Section */}
-      <section className="py-12 bg-white dark:bg-gray-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-center mb-8">
-            <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
-              <button
-                onClick={() => setActiveTab('upcoming')}
-                className={`px-4 py-2 rounded-md ${
-                  activeTab === 'upcoming'
-                    ? 'bg-blue-500 text-white'
-                    : 'text-gray-600 dark:text-gray-300'
-                }`}
-              >
-                Upcoming Events
-              </button>
-              <button
-                onClick={() => setActiveTab('past')}
-                className={`px-4 py-2 rounded-md ${
-                  activeTab === 'past'
-                    ? 'bg-blue-500 text-white'
-                    : 'text-gray-600 dark:text-gray-300'
-                }`}
-              >
-                Past Events
-              </button>
-            </div>
+      
+      {/* Upcoming Events Section */}
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <div className="mb-12">
+            <h2 className="text-3xl font-bold mb-4">Upcoming Events</h2>
+            <div className="w-24 h-1 bg-purple-600"></div>
           </div>
-
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={containerVariants}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-          >
-            {events[activeTab].map((event) => (
-              <motion.div
-                key={event.id}
-                variants={itemVariants}
-                whileHover={{ scale: 1.02 }}
-                className="bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden shadow-lg"
-              >
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {upcomingEvents.map(event => (
+              <div key={event.id} className="bg-zinc-900 rounded-lg overflow-hidden">
+                <div className="relative w-full h-64">
+                  <Image
+                    src={event.image}
+                    alt={event.title}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
                 <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-4">{event.title}</h3>
-                  <div className="space-y-3">
-                    <div className="flex items-center text-gray-600 dark:text-gray-300">
-                      <FaCalendarAlt className="mr-2" />
-                      <span>{event.date}</span>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="text-center bg-purple-600 px-4 py-2 rounded">
+                      <span className="block text-2xl font-bold">{event.date.day}</span>
+                      <span className="text-sm">{event.date.month}</span>
                     </div>
-                    <div className="flex items-center text-gray-600 dark:text-gray-300">
-                      <FaClock className="mr-2" />
-                      <span>{event.time}</span>
-                    </div>
-                    <div className="flex items-center text-gray-600 dark:text-gray-300">
-                      <FaMapMarkerAlt className="mr-2" />
-                      <span>{event.location}</span>
-                    </div>
-                    <div className="flex items-center text-gray-600 dark:text-gray-300">
-                      <FaTicketAlt className="mr-2" />
-                      <span>{event.tickets}</span>
+                    <div className="flex-1 ml-4">
+                      <h3 className="text-xl font-semibold mb-2">{event.title}</h3>
+                      <p className="text-zinc-400">
+                        <span className="block">{event.venue}</span>
+                        <span>{event.time}</span>
+                      </p>
                     </div>
                   </div>
-                  <p className="mt-4 text-gray-600 dark:text-gray-300">
-                    {event.description}
-                  </p>
-                  {activeTab === 'upcoming' && (
-                    <button className="mt-6 w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md transition-colors">
-                      Get Tickets
-                    </button>
-                  )}
+                  <p className="text-zinc-300 mb-4">{event.description}</p>
+                  <Link 
+                    href={`/events/${event.id}`}
+                    className="inline-block bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded transition duration-300"
+                  >
+                    Get Tickets
+                  </Link>
                 </div>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
-    </div>
-  );
-};
-
-export default Events; 
+      
+      {/* Past Events Gallery */}
+      <section className="py-16 bg-zinc-900/50">
+        <div className="container mx-auto px-4">
+          <div className="mb-12">
+            <h2 className="text-3xl font-bold mb-4">Past Events</h2>
+            <div className="w-24 h-1 bg-purple-600"></div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="relative group overflow-hidden rounded-lg">
+              <Image 
+                src="/images/event-placeholder.jpg" 
+                alt="Winter Sound Series" 
+                width={400} 
+                height={300}
+                className="w-full h-[300px] object-cover transition duration-300 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-black/60 flex flex-col justify-end p-6 opacity-0 group-hover:opacity-100 transition duration-300">
+                <h3 className="text-xl font-semibold mb-2">Winter Sound Series</h3>
+                <p className="text-zinc-300">December 2024</p>
+              </div>
+            </div>
+            <div className="relative group overflow-hidden rounded-lg">
+              <Image 
+                src="/images/event-placeholder.jpg" 
+                alt="Cork Electronic Festival" 
+                width={400} 
+                height={300}
+                className="w-full h-[300px] object-cover transition duration-300 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-black/60 flex flex-col justify-end p-6 opacity-0 group-hover:opacity-100 transition duration-300">
+                <h3 className="text-xl font-semibold mb-2">Cork Electronic Festival</h3>
+                <p className="text-zinc-300">October 2024</p>
+              </div>
+            </div>
+            <div className="relative group overflow-hidden rounded-lg">
+              <Image 
+                src="/images/event-placeholder.jpg" 
+                alt="Summer DJ Workshop" 
+                width={400} 
+                height={300}
+                className="w-full h-[300px] object-cover transition duration-300 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-black/60 flex flex-col justify-end p-6 opacity-0 group-hover:opacity-100 transition duration-300">
+                <h3 className="text-xl font-semibold mb-2">Summer DJ Workshop</h3>
+                <p className="text-zinc-300">July 2024</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  )
+} 
